@@ -45,7 +45,7 @@ def generate_data():
 
             values_string = ', '.join(map(str,values_list))
             
-            cur.execute(f"""INSERT INTO customers ({insert_column_list})
+            cur.execute(f"""INSERT INTO cosmic_finance.customers ({insert_column_list})
                             VALUES ({values_string}) RETURNING customer_id""")
             conn.commit()
             returned_keys.append(cur.fetchone()[0])
@@ -72,7 +72,7 @@ def generate_data():
 
             values_string = ', '.join(map(str,values_list))
 
-            cur.execute(f"""INSERT INTO accounts ({insert_column_list}) 
+            cur.execute(f"""INSERT INTO cosmic_finance.accounts ({insert_column_list}) 
                             VALUES ({values_string}) RETURNING account_id""")
             conn.commit()
             returned_keys.append(cur.fetchone()[0])
@@ -104,11 +104,11 @@ def generate_data():
         query =  f"""with random_account1 as
                             (select ROW_NUMBER() OVER (order by random()) join_key
                             , account_id 
-                            from accounts),
+                            from cosmic_finance.accounts),
                     random_account2 as
                             (select ROW_NUMBER() OVER (order by random()) join_key
                             , account_id 
-                            from accounts)
+                            from cosmic_finance.accounts)
                     select r1.account_id , r2.account_id
                     from random_account1 r1
                     join random_account2 r2 on r1.join_key = r2.join_key
@@ -146,7 +146,7 @@ def generate_data():
             print(f"credit values are {values_string_credit}")
 
             #DEBIT RECORDS
-            cur.execute(f"""INSERT INTO transactions ({insert_column_list}) 
+            cur.execute(f"""INSERT INTO cosmic_finance.transactions ({insert_column_list}) 
                         VALUES ({values_string_debit}) RETURNING transaction_id"""
             )
                             
@@ -156,7 +156,7 @@ def generate_data():
 
             #CREDIT RECORDS
             cur = conn.cursor()
-            cur.execute(f"""INSERT INTO transactions ({insert_column_list}) 
+            cur.execute(f"""INSERT INTO cosmic_finance.transactions ({insert_column_list}) 
                         VALUES ({values_string_credit}) RETURNING transaction_id"""
             )
                             
@@ -189,7 +189,7 @@ def generate_data():
         print(f"it has been {days_since_start} days since start date and {customer_count} customer records will be made")
 
         cur = conn.cursor()
-        cur.execute(f"""select customer_id from customers order by random() limit {customer_count}"""
+        cur.execute(f"""select customer_id from cosmic_finance.customers order by random() limit {customer_count}"""
         )
         customer_id_list=cur.fetchall()
 
@@ -204,7 +204,7 @@ def generate_data():
             print(f"loan values are {values_string_loan}")
 
             #LOAN RECORDS
-            cur.execute(f"""INSERT INTO loans ({insert_column_list}) 
+            cur.execute(f"""INSERT INTO cosmic_finance.loans ({insert_column_list}) 
                         VALUES ({values_string_loan}) RETURNING loan_id"""
             )
                             
