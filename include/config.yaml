@@ -1,0 +1,20 @@
+---
+days_since_start_thresholds:
+  customers:
+    first_band:
+      max_days: 3
+      min_rand: 50
+      max_rand: 100
+    second_band:
+      max_days: 21
+      min_rand: 50
+      max_rand: 100
+    third_band:
+      max_days: 90
+      min_rand: 50
+      max_rand: 100
+    last_band:
+      max_days: 
+      min_rand: 50
+      max_rand: 100
+                        
